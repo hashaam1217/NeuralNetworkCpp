@@ -36,24 +36,42 @@ class NeuralNetwork
             bias_sizes[i] = layer_sizes_[i+1];
         }
 
-        //Randomzing the values of weights and biases
+        //Randomzing the values of weights 
         vector<vector<double>> weights;
         for (int i = 0; i < weight_rows.size(); i++)
         {
             vector<double> row(weight_rows[i]);
-            for (int j = 0; j < weight_cols[i]; j++)
+            //Randomising
+            random_device SeedGen;
+            mt19937 gen(SeedGen());
+            //Creates a normal distribution with mean = 0 and standard deviation = 1.
+            normal_distribution<double> distribution(0.0, 1.0); 
+           
+            for (int j = 0; j < weight_rows[i]; j++)
             {
-                //Need to add randomization for row in the vector
+                row[j] = distribution(gen);    
             }
         }
+        //Randomizing the values of biases
+        vector<vector<double>> biases;
+
+        for (int i = 0; i < bias_sizes.size(); i++)
+        {
+            vector<double> row(bias_sizes[i]);
+            for (int j = 0; bias_sizes[i]; j++)
+            {
+                row[j] = distribution(gen);
+            }
+        }
+        
     }
 }
 //Prototyping
-void forward_propagation();
-void backward_propagation();
-void cost_function(); 
-void ReLu();
-void loss_function();
+//void forward_propagation();
+//void backward_propagation();
+//void cost_function(); 
+//void ReLu();
+//void loss_function();
 
 int main(void)
 {
