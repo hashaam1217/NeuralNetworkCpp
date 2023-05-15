@@ -21,8 +21,12 @@ using namespace std;
 class NeuralNetwork
 {
     public:
+        vector<int> layer_sizes_;
+        double learning_rate_;
+
+
         //Defining a constructor
-        NeuralNetwork(const vector<int>& layer_sizes, double learning_rate) : layer_sizes_(layer_sizes_(layer_sizes), learning_rate_(learning_rate))
+        NeuralNetwork(const vector<int>& layer_sizes, double learning_rate) : layer_sizes_(layer_sizes), learning_rate_(learning_rate)
     {
         //Defining the structure of the weight matrix
         vector<int> weight_rows(layer_sizes_.size() - 1);
@@ -32,7 +36,7 @@ class NeuralNetwork
         for (int i = 0; i < layer_sizes_.size() - 1; i++)
         {
             weight_rows[i] = layer_sizes_[i+1]; //Number of rows in the weight matrix
-            weight_columns[i] = layer_sizes_[i]; //Number of columns in the weight matrix
+            weight_cols[i] = layer_sizes_[i]; //Number of columns in the weight matrix
             bias_sizes[i] = layer_sizes_[i+1];
         }
 
@@ -58,6 +62,12 @@ class NeuralNetwork
         for (int i = 0; i < bias_sizes.size(); i++)
         {
             vector<double> row(bias_sizes[i]);
+            //Randomising
+            random_device SeedGen;
+            mt19937 gen(SeedGen());
+            //Creates a normal distribution with mean = 0 and standard deviation = 1.
+            normal_distribution<double> distribution(0.0, 1.0);
+
             for (int j = 0; bias_sizes[i]; j++)
             {
                 row[j] = distribution(gen);
