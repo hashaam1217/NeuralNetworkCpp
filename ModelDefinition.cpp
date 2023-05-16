@@ -20,6 +20,8 @@ using namespace std;
 
 class NeuralNetwork
 {
+
+
     public:
         vector<int> layer_sizes_;
         double learning_rate_;
@@ -68,7 +70,7 @@ class NeuralNetwork
             //Creates a normal distribution with mean = 0 and standard deviation = 1.
             normal_distribution<double> distribution(0.0, 1.0);
 
-            for (int j = 0; bias_sizes[i]; j++)
+            for (int j = 0; j < bias_sizes[i]; j++)
             {
                 row[j] = distribution(gen);
             }
@@ -90,11 +92,10 @@ int main(void)
     NeuralNetwork MyNeuralNetwork(Vector, 3);
     vector<int> MyVector = MyNeuralNetwork.layer_sizes_;
     
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < MyVector.size(); i++)
     {
         cout << MyVector[i] << "\n";
     }
 
-    cout << endl;
+    cout << MyNeuralNetwork.bias_sizes;
 }
-
