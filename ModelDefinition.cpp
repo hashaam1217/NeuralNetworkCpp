@@ -75,7 +75,7 @@ class NeuralNetwork
         }
         
     }
-}
+};
 //Prototyping
 //void forward_propagation();
 //void backward_propagation();
@@ -85,6 +85,16 @@ class NeuralNetwork
 
 int main(void)
 {
-    printf("Hello World");
+
+    vector<int> Vector = {1, 2, 3};
+    NeuralNetwork MyNeuralNetwork(Vector, 3);
+    vector<int> MyVector = MyNeuralNetwork.layer_sizes_;
+    
+    for (int i = 0; i < 1; i++)
+    {
+        cout << MyVector[i] << "\n";
+    }
+
+    cout << endl;
 }
 
