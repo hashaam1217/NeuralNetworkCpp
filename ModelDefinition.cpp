@@ -23,18 +23,17 @@ class NeuralNetwork
     public:
         double learning_rate_;
         vector<int> layer_sizes_;
-        
+        vector<vector<double>> weights_;
+        vector<vector<double>> biases_;
+
         char x = 'x';
         void print()
         {
-            cout << learning_rate_ << endl;
+            cout << weights_[1][0]<< endl;
+
         }
 
-    private:
-        vector<vector<double>> weights_;
-        vector<vector<double>> biases_;
- 
-    //Defining a constructor
+        //Defining a constructor
     NeuralNetwork(const vector<int>& layer_sizes, double learning_rate) : layer_sizes_(layer_sizes), learning_rate_(learning_rate)
     {
       //Defining the structure of the weight matrix
@@ -50,7 +49,6 @@ class NeuralNetwork
       }
 
       //Randomzing the values of weights 
-      vector<vector<double>> weights_;
       for (int i = 0; i < weight_rows.size(); i++)
       {
           vector<double> row(weight_rows[i]);
@@ -69,8 +67,6 @@ class NeuralNetwork
       }
 
       //Randomizing the values of biases
-      vector<vector<double>> biases_;
-
       for (int i = 0; i < bias_sizes.size(); i++)
       {
           vector<double> row(bias_sizes[i]);
@@ -89,8 +85,7 @@ class NeuralNetwork
           biases_.push_back(row);    
       }
     }
-
-      
+    //private:
 };
 //Prototyping
 //void forward_propagation();
@@ -99,9 +94,25 @@ class NeuralNetwork
 //void ReLu();
 //void loss_function();
 
+void printnetwork(vector<vector<double>> myVector);
+
 int main(void)
 {
+    cout << "Hello World" << endl;
     vector<int> Kash = {1, 2, 3};
     NeuralNetwork Hash(Kash, 4);
-    Hash.print();
+    printnetwork(Hash.weights_);
+    printnetwork(Hash.biases_);
+    cout << endl;
+}
+ 
+void printnetwork(vector<vector<double>> myVector)
+{
+    for (int i = 0; i < myVector.size(); i++) {
+    for (int j = 0; j < myVector[i].size(); j++) {
+        cout << myVector[i][j] << " ";
+    }
+    cout << endl;
+}
+ 
 }
