@@ -23,6 +23,8 @@ class NeuralNetwork
     public:
         double learning_rate_;
         vector<int> layer_sizes_;
+        
+        //This function prints weights
         void print()
         {
             cout << "weights start" << endl;
@@ -42,10 +44,9 @@ class NeuralNetwork
             cout << endl;
         }
 
-        void fprop()
+        void fprop(vector<double> input_layer)
         {
-            vector<double> temp = {1.0, 1.0};
-            forward_propagation(temp);
+            forward_propagation(input_layer);
         }
 
     //Defining a constructor
@@ -149,10 +150,10 @@ void printnetwork(vector<vector<double>> myVector);
 int main(void)
 {
     cout << "Hello World" << endl;
-    vector<int> Kash = {2, 2, 2, 2};
+    vector<int> Kash = {3, 3, 3, 3};
     NeuralNetwork Hash(Kash, 4);
-    Hash.print();
-    //Hash.fprop();
+    //Hash.print();
+    Hash.fprop({1, 1, 1});
     cout << endl;
 }
  
