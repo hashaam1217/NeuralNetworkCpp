@@ -23,14 +23,17 @@ class NeuralNetwork
     public:
         double learning_rate_;
         vector<int> layer_sizes_;
-        vector<vector<double>> weights_;
-        vector<vector<double>> biases_;
-
         char x = 'x';
         void print()
         {
             cout << weights_[1][0]<< endl;
 
+        }
+
+        void fprop()
+        {
+            vector<double> temp = {5, 5, 5, 5, 5};
+            forward_propagation(temp);
         }
 
         //Defining a constructor
@@ -85,7 +88,33 @@ class NeuralNetwork
           biases_.push_back(row);    
       }
     }
-    //private:
+    private:
+        vector<vector<double>> weights_;
+        vector<vector<double>> biases_;
+
+        vector<double> forward_propagation(vector<double> input_vector)
+        {
+            //Repeats for each layer 
+            for (int i = 0; i < weights_.size(); i++)
+            {
+                vector<double> current_layer = input_vector;
+                input_vector.clear();
+                //For each node
+                for (int j = 0; j < weights_[i].size(); j++)   
+                {
+                    //Taking dot product
+                    double resultant_node = inner_product(weights_[i].begin(), weights_[i].end(), current_layer.begin(), 0);
+                    cout << "i: " << i << endl;
+                    cout << "j: " << j << endl;
+                    cout << resultant_node <<endl;
+                    
+                    input_vector.push_back(resultant_node);
+                }
+            }
+            return input_vector;
+        }
+
+
 };
 //Prototyping
 //void forward_propagation();
@@ -99,10 +128,9 @@ void printnetwork(vector<vector<double>> myVector);
 int main(void)
 {
     cout << "Hello World" << endl;
-    vector<int> Kash = {1, 2, 3};
+    vector<int> Kash = {5, 5, 5};
     NeuralNetwork Hash(Kash, 4);
-    printnetwork(Hash.weights_);
-    printnetwork(Hash.biases_);
+    Hash.fprop();
     cout << endl;
 }
  
