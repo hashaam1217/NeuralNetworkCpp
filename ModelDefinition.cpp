@@ -18,6 +18,8 @@ using namespace std;
 //const int hidden_layers_size = 20;
 //const int output_size = 10;
 
+void printnetwork(vector<vector<double>> myVector);
+
 class NeuralNetwork
 {
     public:
@@ -44,6 +46,11 @@ class NeuralNetwork
             cout << endl;
         }
 
+        void printbiases()
+        {
+            printnetwork(biases_);
+        }
+        //Public forward propagation function
         void fprop(vector<double> input_layer)
         {
             forward_propagation(input_layer);
@@ -127,7 +134,8 @@ class NeuralNetwork
                 {
                     //Taking dot product
                     double resultant_node = inner_product(weights_[i][j].begin(), weights_[i][j].end(), current_layer.begin(), 0.0);
-                    cout << resultant_node <<endl;
+                    resultant_node += biases_[i][j];
+                    cout << resultant_node << endl;
                     
                     input_vector.push_back(resultant_node);
                 }
@@ -145,15 +153,15 @@ class NeuralNetwork
 //void ReLu();
 //void loss_function();
 
-void printnetwork(vector<vector<double>> myVector);
 
 int main(void)
 {
     cout << "Hello World" << endl;
     vector<int> Kash = {3, 3, 3, 3};
     NeuralNetwork Hash(Kash, 4);
-    //Hash.print();
     Hash.fprop({1, 1, 1});
+    Hash.printbiases();
+    Hash.print();
     cout << endl;
 }
  
