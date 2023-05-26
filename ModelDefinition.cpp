@@ -23,27 +23,32 @@ class NeuralNetwork
     public:
         double learning_rate_;
         vector<int> layer_sizes_;
-        char x = 'x';
         void print()
         {
+            cout << "weights start" << endl;
+
             for (int i = 0; i < weights_.size(); i++)
             {
                 for (int j = 0; j < weights_[i].size(); j++)
                 {
-                    cout << weights_[i][j] << endl;
+                    for (int k = 0; k < weights_[i][j].size(); k++)
+                    {
+                        cout << weights_[i][j][k] << endl;
+                    }
+                    cout << endl;
                 }
-                cout << endl;
+                cout <<"end layer"<< endl << endl;
             }
-
+            cout << endl;
         }
 
         void fprop()
         {
-            vector<double> temp = {1.0, 1.0, 1.0, 1.0, 1.0};
+            vector<double> temp = {1.0, 1.0};
             forward_propagation(temp);
         }
 
-        //Defining a constructor
+    //Defining a constructor
     NeuralNetwork(const vector<int>& layer_sizes, double learning_rate) : layer_sizes_(layer_sizes), learning_rate_(learning_rate)
     {
       //Defining the structure of the weight matrix
@@ -58,6 +63,8 @@ class NeuralNetwork
           bias_sizes[i] = layer_sizes_[i+1];
       }
 
+
+      vector<vector<double>> current_layer_weights;
       //Randomzing the values of weights 
       for (int i = 0; i < weight_rows.size(); i++)
       {
@@ -68,13 +75,20 @@ class NeuralNetwork
           //Creates a normal distribution with mean = 0 and standard deviation = 1.
           normal_distribution<double> distribution(0.0, 1.0); 
            
-          for (int j = 0; j < weight_rows[i]; j++)
-          {
-              row[j] = distribution(gen);    
-          }
-          //Adds the individual row to the final weights vector matrix
-          weights_.push_back(row);
+          for (int j = 0; j < weight_cols[i]; j++)
+              {
+                  for (int k = 0; k < weight_rows[i]; k++)
+                  {
+                      row[k] = distribution(gen);    
+                  }
+                  //Adds the individual row to the current layer weights vector matrix
+                  current_layer_weights.push_back(row);
+              }
+              //Adds the current layer weight matrix of this layer to a vector of matrixes
+              weights_.push_back(current_layer_weights);
+              current_layer_weights.clear();
       }
+      
 
       //Randomizing the values of biases
       for (int i = 0; i < bias_sizes.size(); i++)
@@ -96,9 +110,10 @@ class NeuralNetwork
       }
     }
     private:
-        vector<vector<double>> weights_;
+        vector<vector<vector<double>>> weights_;
         vector<vector<double>> biases_;
 
+        //Haven't added biases yet
         vector<double> forward_propagation(vector<double> input_vector)
         {
             //Repeats for each layer 
@@ -110,7 +125,7 @@ class NeuralNetwork
                 for (int j = 0; j < weights_[i].size(); j++)   
                 {
                     //Taking dot product
-                    double resultant_node = inner_product(weights_[i].begin(), weights_[i].end(), current_layer.begin(), 0.0);
+                    double resultant_node = inner_product(weights_[i][j].begin(), weights_[i][j].end(), current_layer.begin(), 0.0);
                     cout << resultant_node <<endl;
                     
                     input_vector.push_back(resultant_node);
@@ -134,10 +149,10 @@ void printnetwork(vector<vector<double>> myVector);
 int main(void)
 {
     cout << "Hello World" << endl;
-    vector<int> Kash = {5, 5, 5, 5};
+    vector<int> Kash = {2, 2, 2, 2};
     NeuralNetwork Hash(Kash, 4);
     Hash.print();
-    Hash.fprop();
+    //Hash.fprop();
     cout << endl;
 }
  
