@@ -26,13 +26,20 @@ class NeuralNetwork
         char x = 'x';
         void print()
         {
-            cout << weights_[1][0]<< endl;
+            for (int i = 0; i < weights_.size(); i++)
+            {
+                for (int j = 0; j < weights_[i].size(); j++)
+                {
+                    cout << weights_[i][j] << endl;
+                }
+                cout << endl;
+            }
 
         }
 
         void fprop()
         {
-            vector<double> temp = {5, 5, 5, 5, 5};
+            vector<double> temp = {1.0, 1.0, 1.0, 1.0, 1.0};
             forward_propagation(temp);
         }
 
@@ -103,13 +110,12 @@ class NeuralNetwork
                 for (int j = 0; j < weights_[i].size(); j++)   
                 {
                     //Taking dot product
-                    double resultant_node = inner_product(weights_[i].begin(), weights_[i].end(), current_layer.begin(), 0);
-                    cout << "i: " << i << endl;
-                    cout << "j: " << j << endl;
+                    double resultant_node = inner_product(weights_[i].begin(), weights_[i].end(), current_layer.begin(), 0.0);
                     cout << resultant_node <<endl;
                     
                     input_vector.push_back(resultant_node);
                 }
+                cout << endl;
             }
             return input_vector;
         }
@@ -128,8 +134,9 @@ void printnetwork(vector<vector<double>> myVector);
 int main(void)
 {
     cout << "Hello World" << endl;
-    vector<int> Kash = {5, 5, 5};
+    vector<int> Kash = {5, 5, 5, 5};
     NeuralNetwork Hash(Kash, 4);
+    Hash.print();
     Hash.fprop();
     cout << endl;
 }
