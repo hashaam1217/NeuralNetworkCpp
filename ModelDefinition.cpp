@@ -5,6 +5,7 @@
 #include <cmath> 
 #include <vector>
 #include <random>
+#include <algorithm>
 
 //iostream is used for simple input/output
 //cmath is used to facilitate the more complex math operations being handled
@@ -18,7 +19,10 @@ using namespace std;
 //const int hidden_layers_size = 20;
 //const int output_size = 10;
 
+
 void printnetwork(vector<vector<double>> myVector);
+double ReLU(double x);
+vector<double> softmax(vector<double> x); 
 
 class NeuralNetwork
 {
@@ -53,7 +57,11 @@ class NeuralNetwork
         //Public forward propagation function
         void fprop(vector<double> input_layer)
         {
-            forward_propagation(input_layer);
+            vector<double> output = forward_propagation(input_layer);
+            for (int i = 0; i < output.size(); i++)
+            {
+                cout << output[i] << endl;
+            }
         }
 
     //Defining a constructor
@@ -137,11 +145,20 @@ class NeuralNetwork
                     resultant_node += biases_[i][j];
                     cout << resultant_node << endl;
                     
+                    //Applying activation function
+                    if (i != weights_.size() - 1)
+                    {
+                        //Apply RelU for hidden layers
+                        resultant_node = ReLU(resultant_node);
+
+                    }
+
                     input_vector.push_back(resultant_node);
                 }
                 cout << endl;
             }
-            return input_vector;
+            //Applying soft max function to final layer.
+            return softmax(input_vector);
         }
 
 
@@ -150,7 +167,7 @@ class NeuralNetwork
 //void forward_propagation();
 //void backward_propagation();
 //void cost_function(); 
-//void ReLu();
+//void ReLU();
 //void loss_function();
 
 
@@ -160,18 +177,41 @@ int main(void)
     vector<int> Kash = {3, 3, 3, 3};
     NeuralNetwork Hash(Kash, 4);
     Hash.fprop({1, 1, 1});
-    Hash.printbiases();
-    Hash.print();
+    //Hash.printbiases();
+    //Hash.print();
     cout << endl;
 }
  
 void printnetwork(vector<vector<double>> myVector)
 {
-    for (int i = 0; i < myVector.size(); i++) {
-    for (int j = 0; j < myVector[i].size(); j++) {
-        cout << myVector[i][j] << " ";
-    }
+    for (int i = 0; i < myVector.size(); i++) 
+    {
+        for (int j = 0; j < myVector[i].size(); j++) 
+        {
+            cout << myVector[i][j] << " ";
+        }
     cout << endl;
-}
+    }
  
 }
+
+double ReLU(double x) 
+{
+    return x > 0 ? x : 0;
+}
+
+vector<double> softmax(vector<double> x) 
+{
+    double maxVal = *max_element(x.begin(), x.end());
+    double sum = 0.0;
+    vector<double> y(x.size());
+    for (int i = 0; i < x.size(); i++) {
+        y[i] = exp(x[i] - maxVal);
+        sum += y[i];
+    }
+    for (int i = 0; i < y.size(); i++) {
+        y[i] /= sum;
+    }
+    return y;
+}
+
