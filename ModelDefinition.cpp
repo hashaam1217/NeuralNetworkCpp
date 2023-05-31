@@ -7,18 +7,7 @@
 #include <random>
 #include <algorithm>
 
-//iostream is used for simple input/output
-//cmath is used to facilitate the more complex math operations being handled
-//vector is extremely important since the whole thing is built on the basis of vectors
-//random is used for it's Gausian distribution function to initialise weights and biases
-
 using namespace std;
-
-//Defining the shape of the neural network
-//const int input_size = 784;
-//const int hidden_layers_size = 20;
-//const int output_size = 10;
-
 
 void printnetwork(vector<vector<double>> myVector);
 double ReLU(double x);
@@ -41,7 +30,9 @@ class NeuralNetwork
                 {
                     for (int k = 0; k < weights_[i][j].size(); k++)
                     {
-                        cout << weights_[i][j][k] << endl;
+                        cout << weights_[i][j][k] << " " << i << " " << j << " " << k << endl;
+                        //cout << weights_[i][j][k] << endl;
+
                     }
                     cout << endl;
                 }
@@ -54,6 +45,7 @@ class NeuralNetwork
         {
             printnetwork(biases_);
         }
+
         //Public forward propagation function
         void fprop(vector<double> input_layer)
         {
@@ -129,7 +121,8 @@ class NeuralNetwork
         vector<vector<vector<double>>> weights_;
         vector<vector<double>> biases_;
 
-        //Haven't added biases yet
+        //Note for later: Instead of individual multiplications, we can add all the weights for the current node
+        //and then multiply that by the input_vector member.
         vector<double> forward_propagation(vector<double> input_vector)
         {
             //Repeats for each layer 
@@ -137,22 +130,26 @@ class NeuralNetwork
             {
                 vector<double> current_layer = input_vector;
                 input_vector.clear();
-                //For each node
-                for (int j = 0; j < weights_[i].size(); j++)   
+                //For number of weights 
+                for (int j = 0; j < biases_[i].size(); j++)   
                 {
-                    //Taking dot product
-                    double resultant_node = inner_product(weights_[i][j].begin(), weights_[i][j].end(), current_layer.begin(), 0.0);
+                    double resultant_node = 0;
+                    //To add result from each node's weight
+                    for (int k = 0; k < weights_[i].size(); k++)
+                    {
+                        resultant_node += input_vector[j] * weights_[i][k][j];
+                    }
+
                     resultant_node += biases_[i][j];
-                    cout << resultant_node << endl;
                     
                     //Applying activation function
-                    if (i != weights_.size() - 1)
+                    if (i != weights_[i].size() - 1)
                     {
                         //Apply RelU for hidden layers
                         resultant_node = ReLU(resultant_node);
-
                     }
 
+                    cout << resultant_node << endl;
                     input_vector.push_back(resultant_node);
                 }
                 cout << endl;
@@ -174,12 +171,13 @@ class NeuralNetwork
 int main(void)
 {
     cout << "Hello World" << endl;
-    vector<int> Kash = {3, 3, 3, 3};
+    vector<int> Kash = {2, 3, 4, 2};
     NeuralNetwork Hash(Kash, 4);
-    Hash.fprop({1, 1, 1});
-    //Hash.printbiases();
-    //Hash.print();
     cout << endl;
+    Hash.printbiases();
+    Hash.print();
+    cout << endl;
+    Hash.fprop({2, 2});
 }
  
 void printnetwork(vector<vector<double>> myVector)
