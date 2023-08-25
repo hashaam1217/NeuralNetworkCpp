@@ -20,12 +20,12 @@ The neural network implemented in this project consists of an input layer, one o
 
 The weights and biases of the network are randomly initialized using a Gaussian distribution with mean 0 and standard deviation 1. The network uses the ReLU activation function in the hidden layers and the softmax activation function in the output layer.
 
-# Training the Network
-The network is trained using backpropagation and stochastic gradient descent. The cost function used is the cross-entropy loss function, which is commonly used for classification tasks.
+# Training the Network (Under construction)
+The network is to be trained using backpropagation and stochastic gradient descent. The cost function used is the cross-entropy loss function, which is commonly used for classification tasks.
 
 To train the network, you will need a labeled training dataset. The network can be trained using the train function, which takes in the training dataset as input and updates the weights and biases of the network using stochastic gradient descent.
 
-# Testing the Network
+# Testing the Network (under construction)
 After training, you can test the performance of the network using a validation dataset. The accuracy of the network can be evaluated using the test function, which takes in the validation dataset as input and returns the accuracy of the network on the dataset.
 
 # Customizing the Network
