@@ -1,5 +1,3 @@
-# NeuralNetworkCpp
-
 # Neural Network in C++
 This is a simple implementation of a neural network in C++. The goal of this project is to provide a basic framework for building and training neural networks from scratch. The network is designed to recognize handwritten digits from the MNIST database.
 
